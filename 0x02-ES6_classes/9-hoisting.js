@@ -43,3 +43,4 @@ export class HolbertonClass {
   const student5 = new StudentHolberton('Jason', 'Sandler', class2019);
   
   export default [student1, student2, student3, student4, student5];
+  
