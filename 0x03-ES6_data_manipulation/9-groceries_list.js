@@ -1,21 +1,15 @@
-export default class GroceriesList extends Map {
-    constructor() {
-      super();
-      this.set('apples', 0);
-      this.set('bananas', 0);
-      this.set('rice', 0);
-    }
+export default function groceriesList() {
+    const obj = {
+      Apples: 10,
+      Tomatoes: 10,
+      Pasta: 1,
+      Rice: 1,
+      Banana: 5,
+    };
   
-    getApples() {
-      return this.get('apples');
-    }
+    // Create a new Map directly from the object's entries
+    const finalMap = new Map(Object.entries(obj));
   
-    getBananas() {
-      return this.get('bananas');
-    }
-  
-    getRice() {
-      return this.get('rice');
-    }
+    return finalMap;
   }
   
