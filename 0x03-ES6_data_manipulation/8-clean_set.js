@@ -1,11 +1,15 @@
-/* eslint-disable array-callback-return */
-export default function cleanSet(set, string) {
-    if (string === undefined || string.length === 0) {
+export default function cleanSet(set, startString) {
+    if (!(set instanceof Set) || typeof startString !== 'string') {
       return '';
     }
-    return [...set]
-      .filter((str) => (str !== undefined ? str.startsWith(string) : ''))
-      .map((str) => (str !== undefined ? str.slice(string.length) : ''))
-      .join('-');
+  
+    const result = [];
+    set.forEach((item) => {
+      if (typeof item === 'string' && item.startsWith(startString)) {
+        result.push(item.slice(startString.length));
+      }
+    });
+  
+    return result.join('-');
   }
   
