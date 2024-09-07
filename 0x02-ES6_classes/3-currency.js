@@ -17,7 +17,7 @@ export default class Currency {
   }
 
   set code(c) {
-    this._code = c;  // Corrected setter for code
+    this._code = c; // Fixed setter for code
   }
 
   displayFullCurrency() {
