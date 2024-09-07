@@ -7,7 +7,7 @@ export default function groceriesList() {
       Banana: 5,
     };
   
-    // Create a new Map directly from the object's entries
+    // Create a Map from the object's entries
     const finalMap = new Map(Object.entries(obj));
   
     return finalMap;
