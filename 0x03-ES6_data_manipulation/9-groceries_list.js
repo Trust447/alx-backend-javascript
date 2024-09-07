@@ -1,17 +1,21 @@
-export default function groceriesList() {
-    const finalMap = new Map();
-    const obj = {
-      Apples: 10,
-      Tomatoes: 10,
-      Pasta: 1,
-      Rice: 1,
-      Banana: 5,
-    };
-    //   get all the keys in the object into an array
-    const list = Array.from(Object.keys(obj));
+export default class GroceriesList extends Map {
+    constructor() {
+      super();
+      this.set('apples', 0);
+      this.set('bananas', 0);
+      this.set('rice', 0);
+    }
   
-    //   map through the array and for each item, set the value to the key in the finalMap
-    list.map((item) => finalMap.set(item, obj[item]));
-    return finalMap;
+    getApples() {
+      return this.get('apples');
+    }
+  
+    getBananas() {
+      return this.get('bananas');
+    }
+  
+    getRice() {
+      return this.get('rice');
+    }
   }
   
