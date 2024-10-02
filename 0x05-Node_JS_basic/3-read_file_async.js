@@ -24,14 +24,16 @@ const countStudents = (dataPath) => new Promise((resolve, reject) => {
           studentGroups[field] = [];
         }
 
-        const studentEntries = studentPropNames.map((propName, idx) => [propName, studentPropValues[idx]]);
+        const studentEntries = studentPropNames.map(
+          (propName, idx) => [propName, studentPropValues[idx]]);
         studentGroups[field].push(Object.fromEntries(studentEntries));
       }
 
-      const totalStudents = Object.values(studentGroups).reduce((total, group) => total + group.length, 0);
-      
+      const totalStudents = Object.values(studentGroups).reduce(
+        (total, group) => total + group.length, 0);
+
       console.log(`Number of students: ${totalStudents}`);
-      
+
       for (const [field, group] of Object.entries(studentGroups)) {
         const studentNames = group.map((student) => student.firstname).join(', ');
         console.log(`Number of students in ${field}: ${group.length}. List: ${studentNames}`);
