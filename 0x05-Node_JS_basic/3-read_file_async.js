@@ -1,49 +1,49 @@
-const fs = require('fs');
+const { readFile } = require('fs');
 
-/**
- * Counts the students in a CSV data file.
- * @param {String} dataPath The path to the CSV data file.
- * @returns {Promise} A promise that resolves when the students are counted.
- */
-const countStudents = (dataPath) => new Promise((resolve, reject) => {
-  fs.readFile(dataPath, 'utf-8', (err, data) => {
-    if (err) {
-      reject(new Error('Cannot load the database'));
-    } else {
-      const fileLines = data.trim().split('\n');
-      const studentGroups = {};
-      const dbFieldNames = fileLines[0].split(',');
-      const studentPropNames = dbFieldNames.slice(0, dbFieldNames.length - 1);
-
-      for (const line of fileLines.slice(1)) {
-        const studentRecord = line.split(',');
-        const studentPropValues = studentRecord.slice(0, studentRecord.length - 1);
-        const field = studentRecord[studentRecord.length - 1];
-
-        if (!studentGroups[field]) {
-          studentGroups[field] = [];
-        }
-
-        const studentEntries = studentPropNames.map(
-          (propName, idx) => [propName, studentPropValues[idx]]);
-        studentGroups[field].push(Object.fromEntries(studentEntries));
+function countStudents(fileName) {
+  return new Promise((resolve, reject) => {
+    readFile(fileName, 'utf-8', (error, data) => {
+      if (error) {
+        reject(new Error('Cannot load the database'));
+        return;
       }
 
-      const totalStudents = Object.values(studentGroups).reduce(
-        (total, group) => total + group.length, 0);
+      const lines = data.trim().split('\n');
+      if (lines.length < 2) {
+        reject(new Error('No data in the database'));
+        return;
+      }
 
+      const students = {};
+      const fields = {};
+      const header = lines[0].split(',');  // First line is the header
+
+      for (const line of lines.slice(1)) { // Skip the header row
+        const studentData = line.split(',');
+        const field = studentData[3]; // Assuming the field is at index 3 (last column)
+
+        if (!students[field]) {
+          students[field] = [];
+        }
+        students[field].push(studentData[0]); // Collect student first names
+
+        if (!fields[field]) {
+          fields[field] = 0;
+        }
+        fields[field] += 1; // Count students in the field
+      }
+
+      const totalStudents = lines.length - 1;
       console.log(`Number of students: ${totalStudents}`);
 
-      for (const [field, group] of Object.entries(studentGroups)) {
-        const studentNames = group.map((student) => student.firstname).join(', ');
-        console.log(`Number of students in ${field}: ${group.length}. List: ${studentNames}`);
+      for (const [field, count] of Object.entries(fields)) {
+        const namesList = students[field].join(', ');
+        console.log(`Number of students in ${field}: ${count}. List: ${namesList}`);
       }
 
-      resolve(true);
-    }
+      resolve(true); // You may return data if needed for further usage
+    });
   });
-});
+}
 
 module.exports = countStudents;
-
-// Ensure there's no trailing space before the newline
