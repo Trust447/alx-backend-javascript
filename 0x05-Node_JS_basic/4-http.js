@@ -13,7 +13,7 @@ app.on('request', (_, res) => {
   
   // Write the response
   res.write(Buffer.from(responseText));
-  
+
   // End the response
   res.end();
 });
