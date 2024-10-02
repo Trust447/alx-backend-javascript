@@ -10,10 +10,7 @@ const countStudents = (dataPath) => new Promise((resolve, reject) => {
     if (err) {
       reject(new Error('Cannot load the database'));
     } else {
-      const fileLines = data
-        .toString('utf-8')
-        .trim()
-        .split('\n');
+      const fileLines = data.trim().split('\n');
       const studentGroups = {};
       const dbFieldNames = fileLines[0].split(',');
       const studentPropNames = dbFieldNames.slice(0, dbFieldNames.length - 1);
@@ -22,16 +19,16 @@ const countStudents = (dataPath) => new Promise((resolve, reject) => {
         const studentRecord = line.split(',');
         const studentPropValues = studentRecord.slice(0, studentRecord.length - 1);
         const field = studentRecord[studentRecord.length - 1];
-        if (!Object.keys(studentGroups).includes(field)) {
+
+        if (!studentGroups[field]) {
           studentGroups[field] = [];
         }
-        const studentEntries = studentPropNames
-          .map((propName, idx) => [propName, studentPropValues[idx]]);
+
+        const studentEntries = studentPropNames.map((propName, idx) => [propName, studentPropValues[idx]]);
         studentGroups[field].push(Object.fromEntries(studentEntries));
       }
 
-      const totalStudents = Object.values(studentGroups)
-        .reduce((total, group) => total + group.length, 0);
+      const totalStudents = Object.values(studentGroups).reduce((total, group) => total + group.length, 0);
       
       console.log(`Number of students: ${totalStudents}`);
       
@@ -47,4 +44,4 @@ const countStudents = (dataPath) => new Promise((resolve, reject) => {
 
 module.exports = countStudents;
 
-// Newline added to comply with linting
+// Ensure there's no trailing space before the newline
